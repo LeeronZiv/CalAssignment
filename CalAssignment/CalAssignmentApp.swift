@@ -11,7 +11,7 @@ import SwiftUI
 struct CalAssignmentApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RecipesListView(viewModel: RecipesViewModel())
         }
     }
 }
