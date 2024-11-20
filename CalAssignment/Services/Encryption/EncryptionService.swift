@@ -15,22 +15,18 @@ class BiometricEncryptionService {
     private var encryptionKey: SymmetricKey?
     
     init() {
-        // Try to fetch the encryption key from the Keychain or create a new one if necessary
         self.encryptionKey = self.fetchEncryptionKey()
         if self.encryptionKey == nil {
             self.encryptionKey = SymmetricKey(size: .bits256)
-            // Save the new encryption key to the Keychain for future use
             self.saveEncryptionKey(self.encryptionKey!)
         }
     }
     
-    // Fetch encryption key from the Keychain
     private func fetchEncryptionKey() -> SymmetricKey? {
         guard let keyData = KeychainService.retrieve(key: "encryptionKey") else { return nil }
         return SymmetricKey(data: keyData)
     }
     
-    // Save encryption key to the Keychain
     private func saveEncryptionKey(_ key: SymmetricKey) {
         KeychainService.save(key: "encryptionKey", data: key.withUnsafeBytes { Data($0) })
     }
